@@ -2,6 +2,7 @@ from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.http import is_safe_url
 from .forms import TokenAuthForm, PasswordAuthForm, RegisterForm
 from .models import Team, TeamManager, TeamLogin
 from quests.models import Quest
@@ -89,7 +90,7 @@ def do_login(request):
                 TeamLogin(team=team, ip_address=get_client_ip(request)).save()
                 login(request, team)
                 next_page = request.POST.get("next")
-                if next_page:
+                if next_page and is_safe_url(next_page):
                     return redirect(next_page)
                 return redirect("home")
             else:
