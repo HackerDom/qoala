@@ -87,7 +87,10 @@ def do_login(request):
 
             if team is not None:
                 TeamLogin(team=team, ip_address=get_client_ip(request)).save()
-                login(request, team)                
+                login(request, team)
+                next_page = request.POST.get("next")
+                if next_page:
+                    return redirect(next_page)
                 return redirect("home")
             else:
                 form.errors['password'] = form.error_class(["Wrong login or password"])

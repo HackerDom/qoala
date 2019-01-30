@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import sys
+from django.conf import global_settings
+
+# https://stackoverflow.com/a/21693784/6832066
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + [
+    "django.core.context_processors.request",
+]
+
 
 PROJECT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
